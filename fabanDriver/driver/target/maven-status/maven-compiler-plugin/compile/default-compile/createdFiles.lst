@@ -1,0 +1,3 @@
+org/jboss/perf/benchmark/Constants.class
+org/jboss/perf/benchmark/HashingServletDriver.class
+org/jboss/perf/benchmark/WebBenchmark.class

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fabanServletBenchmark xmlns:fh="http://faban.sunsource.net/ns/fabanharness"
+				xmlns:fd="http://faban.sunsource.net/ns/fabandriver"
+				xmlns:fa="http://faban.sunsource.net/ns/faban">
+    <fh:jvmConfig>
+        <fh:javaHome>/opt/jdk1.8.0_92/jre</fh:javaHome>
+        <fh:jvmOptions></fh:jvmOptions>
+    </fh:jvmConfig>
+    <fa:runConfig definition="org.jboss.perf.benchmark.WebBenchmark">
+        <fh:description>JbossPerf-WebBenchmark</fh:description>
+        <fh:timeSync>false</fh:timeSync>
+        <fa:hostConfig>
+            <fa:host>test</fa:host>
+            <fh:enabled>true</fh:enabled>
+            <fh:cpus>0</fh:cpus>
+            <fh:tools>NONE</fh:tools>
+            <fh:userCommands/>
+        </fa:hostConfig>
+        <fa:scale>1</fa:scale>
+        <fa:runControl>
+            <fa:rampUp>30</fa:rampUp>
+            <fa:steadyState>60</fa:steadyState>
+            <fa:rampDown>30</fa:rampDown>
+        </fa:runControl>
+        <fd:outputDir>/home/johara/Work/projects/specjEnterprise2010/driver-results</fd:outputDir>
+        <fd:threadStart>
+            <fd:delay>10</fd:delay>
+            <fd:simultaneous>false</fd:simultaneous>
+            <fd:parallel>true</fd:parallel>
+        </fd:threadStart>
+        <fd:runtimeStats enabled="true">
+            <fd:interval>10</fd:interval>
+        </fd:runtimeStats>
+        <fd:stats>
+            <fd:interval>30</fd:interval>
+        </fd:stats>
+        <audit>true</audit>
+        <stopIfAuditFailed>false</stopIfAuditFailed>
+        <fd:driverConfig name="HashingServletDriver">
+            <fd:agents>1</fd:agents>
+            <fd:properties>
+                <fd:property>
+                    <fd:name>queryString</fd:name>
+                    <fd:value>/web-benchmark/test/HashingTest?length=10</fd:value>
+                </fd:property>
+                <fd:property>
+                    <fd:name>hostString</fd:name>
+                    <fd:value>test</fd:value>
+                </fd:property>
+                <fd:property>
+                    <fd:name>portString</fd:name>
+                    <fd:value>8080</fd:value>
+                </fd:property>
+            </fd:properties>
+        </fd:driverConfig>
+    </fa:runConfig>
+</fabanServletBenchmark>
