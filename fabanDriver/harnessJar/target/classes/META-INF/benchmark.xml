@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<benchmark>
-    <name>fabanServletBenchmark</name>
-    <config-form>config.xhtml</config-form>
-    <config-file-name>run.xml</config-file-name>
-</benchmark>
