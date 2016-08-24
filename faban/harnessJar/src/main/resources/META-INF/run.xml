@@ -41,11 +41,11 @@
             <fd:properties>
                 <fd:property>
                     <fd:name>queryString</fd:name>
-                    <fd:value>/web-benchmark/test/HashingTest?length=10</fd:value>
+                    <fd:value>/servlet/test/HashingTest?length=10</fd:value>
                 </fd:property>
                 <fd:property>
                     <fd:name>hostString</fd:name>
-                    <fd:value>test</fd:value>
+                    <fd:value>{HOSTNAME]</fd:value>
                 </fd:property>
                 <fd:property>
                     <fd:name>portString</fd:name>
