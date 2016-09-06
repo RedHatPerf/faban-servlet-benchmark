@@ -10,15 +10,9 @@
     <packaging>war</packaging>
 
     <properties>
-        <!-- Explicitly declaring the source encoding eliminates the following message: -->
-        <!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-            resources, i.e. build is platform dependent! -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JBoss dependency versions -->
-
-        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-        <version.jboss.as.maven.plugin>7.7.Final</version.jboss.as.maven.plugin>
 
         <version.jboss.spec.javaee.7.0>1.0.3.Final</version.jboss.spec.javaee.7.0>
 
@@ -26,12 +20,11 @@
         <version.war.plugin>2.1.1</version.war.plugin>
 
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <gatling.version>2.2.0</gatling.version>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
         <http-servlet.version>2.5</http-servlet.version>
-        <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
-        <gatling.runMultipleSimulations>true</gatling.runMultipleSimulations>
+        <version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
+        <version.jboss.as.maven.plugin>7.7.Final</version.jboss.as.maven.plugin>
     </properties>
 
     <dependencyManagement>
@@ -84,181 +77,8 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>io.gatling.highcharts</groupId>
-            <artifactId>gatling-charts-highcharts</artifactId>
-            <version>${gatling.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20151123</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
-    <profiles>
-
-        <profile>
-            <id>server</id>
-            <activation>
-                <property>
-                    <name>!test.host</name>
-                </property>
-            </activation>
-            <build>
-                <finalName>${project.artifactId}</finalName>
-                <plugins>
-                    <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.wildfly.maven.plugin}</version>
-                        <configuration>
-                            <hostname>${wildfly-hostname}</hostname>
-                            <port>${wildfly-port}</port>
-                            <username>${wildfly-username}</username>
-                            <password>${wildfly-password}</password>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>deploy</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-
-        <profile>
-            <id>server_as7</id>
-            <activation>
-                <property>
-                    <name>!server</name>
-                </property>
-            </activation>
-            <build>
-                <finalName>${project.artifactId}</finalName>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jboss.as.plugins</groupId>
-                        <artifactId>jboss-as-maven-plugin</artifactId>
-                        <version>${version.jboss.as.maven.plugin}</version>
-                        <executions>
-                            <execution>
-                                <id>deploy</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>server-undeploy</id>
-            <activation>
-                <property>
-                    <name>!server</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.wildfly.maven.plugin}</version>
-                        <configuration>
-                            <ignoreMissingDeployment>true</ignoreMissingDeployment>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>undeploy</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>undeploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>client</id>
-            <activation>
-                <property>
-                    <name>!server</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.alchim31.maven</groupId>
-                        <artifactId>scala-maven-plugin</artifactId>
-                        <version>${scala-maven-plugin.version}</version>
-                    </plugin>
-                    <plugin>
-                        <groupId>io.gatling</groupId>
-                        <artifactId>gatling-maven-plugin</artifactId>
-                        <version>${gatling.version}</version>
-                        <configuration>
-                            <runMultipleSimulations>${gatling.runMultipleSimulations}</runMultipleSimulations>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
-                        <executions>
-                            <execution>
-                                <id>clean-pld-results</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <delete dir="${project.build.directory}/gatling" />
-                                    </target>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>summarize-results</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <java classname="org.jboss.perf.PrintStats" classpathref="maven.test.classpath">
-                                            <arg value="${project.build.directory}/gatling/results"/>
-                                        </java>
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
@@ -266,10 +86,118 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>${version.war.plugin}</version>
                 <configuration>
-                    <!-- Java EE doesn't require web.xml, Maven needs to catch up! -->
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+
+        <profile>
+            <id>wildfly</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <finalName>${project.artifactId}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${version.wildfly.maven.plugin}</version>
+                        <configuration>
+                            <hostname>${appServer-hostname}</hostname>
+                            <port>${appServer-port}</port>
+                            <username>${appServer-username}</username>
+                            <password>${appServer-password}</password>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>deploy</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+
+        <profile>
+            <id>eap</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+<!--
+            <activation>
+                <property>
+                    <name>!wildfly</name>
+                </property>
+            </activation>
+-->
+            <build>
+                <finalName>${project.artifactId}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jboss.as.plugins</groupId>
+                        <artifactId>jboss-as-maven-plugin</artifactId>
+                        <version>${version.jboss.as.maven.plugin}</version>
+                        <configuration>
+                            <hostname>${appServer-hostname}</hostname>
+                            <port>${appServer-port}</port>
+                            <username>${appServer-username}</username>
+                            <password>${appServer-password}</password>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>deploy</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+                <profile>
+                    <id>server-undeploy</id>
+                    <activation>
+                        <property>
+                            <name>!server</name>
+                        </property>
+                    </activation>
+                    <build>
+                        <plugins>
+                            <plugin>
+                                <groupId>org.wildfly.plugins</groupId>
+                                <artifactId>wildfly-maven-plugin</artifactId>
+                                <version>${version.wildfly.maven.plugin}</version>
+                                <configuration>
+                                    <ignoreMissingDeployment>true</ignoreMissingDeployment>
+                                    &lt;!&ndash;<skip>true</skip>&ndash;&gt;
+                                </configuration>
+                                <executions>
+                                    <execution>
+                                        <id>undeploy</id>
+                                        <phase>post-integration-test</phase>
+                                        <goals>
+                                            <goal>undeploy</goal>
+                                        </goals>
+                                    </execution>
+                                </executions>
+                            </plugin>
+                        </plugins>
+                    </build>
+                </profile>
+        -->
+    </profiles>
+
 </project>
