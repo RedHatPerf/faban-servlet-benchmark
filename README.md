@@ -24,8 +24,17 @@ The benchmark uses maven as the build tool.
 
 This will build the serlvet, faban driver, faban harness jar and deploy the servlet war onto EAP/Wildfly
 
+### Deploy benchmark
+
+1. [Download](http://faban.org/download.html) and [install](http://faban.org/1.3/docs/install.html) faban
+2. Navigate to [http://localhost:9980/deploy](http://localhost:9980/deploy)
+3. Deploy faban benchmark from faban/harnessJar/target/harnessJar-1.0.jar
+
 ### Run Benchmark
 
 1. Navigate to http://test:9980/
+2. Click "Schedule Run"
+3. Check benchmark parameters in "Java", "Driver" and "Hashing Driver" tab
+4 Click "Ok"
 
 
