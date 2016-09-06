@@ -1,6 +1,6 @@
 # Web Framework benchmkark
 ## Overview
- This benchmark has been created to measure performance differences between JbossWeb ([EAP6.4.9](http://developers.redhat.com/products/eap/overview/)) and Undertow ([Wildfly 10.1.10.Final](http://wildfly.org/))
+ This benchmark has been created to measure performance differences between JbossWeb ([EAP6.4.9](http://developers.redhat.com/products/eap/overview/)) and Undertow ([EAP7.0.0](http://developers.redhat.com/products/eap/overview/))
 
  The benchmark uses the [Faban framework](http://faban.org/) to drive load from multiple client machines to the System Under Test (SUT).
  Faban orchestrates the execution of benchmark methods across multiple clients, collates are calculates the system results.
